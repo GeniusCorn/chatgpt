@@ -15,7 +15,19 @@ onMounted(() => {
 <template>
   <div h-screen w-screen flex="~ row">
     <!-- left -->
-    <div w-60 bg-gray-900></div>
+    <div
+      flex="~ col"
+      box-border
+      w-60
+      justify-between
+      bg-gray-900
+      p-4
+      text-white
+    >
+      <Logo />
+
+      <Menu />
+    </div>
 
     <!-- right -->
     <div
