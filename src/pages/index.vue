@@ -1,18 +1,44 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useMessageListStore } from '@/store/index'
+
+const messageList = useMessageListStore()
+
+onMounted(() => {
+  if (localStorage.getItem('messageList')) {
+    messageList.message = JSON.parse(
+      localStorage.getItem('messageList') as string
+    )
+  }
+})
+</script>
 
 <template>
-  <div h-screen w-screen flex>
+  <div h-screen w-screen flex="~ row">
     <!-- left -->
     <div w-60 bg-gray-900></div>
 
     <!-- right -->
-    <div flex="~ 1 col" relative h-full w-full items-stretch bg-gray>
-      <div flex="1" overflow-hidden></div>
-
-      <div absolute bottom-0 left-0 w-full>
-        <textarea />
-        <div>发送</div>
+    <div
+      flex="~ 1 col"
+      relative
+      h-full
+      w-full
+      justify-end
+      gap-4
+      overflow-hidden
+    >
+      <div overflow-y-auto p-y-4>
+        <Message
+          v-for="(message, index) in messageList.message"
+          :key="index"
+          :role="message.role"
+          :content="message.content"
+        />
       </div>
+
+      <InputBox />
+
+      <Footer />
     </div>
   </div>
 </template>

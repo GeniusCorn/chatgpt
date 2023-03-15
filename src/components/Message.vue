@@ -3,6 +3,13 @@ const props = defineProps<{
   role: string
   content: string
 }>()
+
+let rawContent = JSON.stringify(props.content)
+
+rawContent = rawContent.slice(1)
+rawContent = rawContent.slice(0, -1)
+
+const textSplit = rawContent.split('\\n\\n')
 </script>
 
 <template>
@@ -24,7 +31,7 @@ const props = defineProps<{
     </div>
 
     <div w-full text-justify leading-loose>
-      <p>{{ props.content }}</p>
+      <p v-for="(text, index) in textSplit" :key="index">{{ text }}</p>
     </div>
   </div>
 </template>
