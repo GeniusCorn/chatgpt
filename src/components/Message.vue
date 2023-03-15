@@ -9,7 +9,13 @@ let rawContent = JSON.stringify(props.content)
 rawContent = rawContent.slice(1)
 rawContent = rawContent.slice(0, -1)
 
-const textSplit = rawContent.split('\\n\\n')
+let textSplit: string[]
+
+if (props.role === 'user') {
+  textSplit = rawContent.split('\\n')
+} else {
+  textSplit = rawContent.split('\\n\\n')
+}
 </script>
 
 <template>
