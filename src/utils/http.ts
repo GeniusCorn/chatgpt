@@ -4,7 +4,8 @@ const http: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   headers: {
     'Content-type': 'application/json'
-  }
+  },
+  timeout: 900000000
 })
 
 http.interceptors.response.use(
