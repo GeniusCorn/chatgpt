@@ -1,7 +1,16 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div flex="~ row" w-full items-center justify-center gap-4 p-y-4>
+  <div
+    flex="~ row"
+    box-border
+    w-full
+    items-center
+    justify-center
+    gap-4
+    p-x-60
+    p-y-4
+  >
     <textarea
       rows="1"
       border-black="/10"
