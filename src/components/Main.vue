@@ -3,16 +3,8 @@ import { useMessageListStore } from '@/store/index'
 
 const messageList = useMessageListStore()
 
-onMounted(() => {
-  if (localStorage.getItem('messageList')) {
-    messageList.message = JSON.parse(
-      localStorage.getItem('messageList') as string
-    )
-  }
-})
-
 const isCurrentMessageListEmpty = computed(
-  () => messageList.message.length === 0
+  () => messageList.currentIndex === null
 )
 </script>
 
@@ -30,8 +22,8 @@ const isCurrentMessageListEmpty = computed(
 
   <div v-else overflow-y-auto p-y-4>
     <Message
-      v-for="(message, index) in messageList.message"
-      :key="index"
+      v-for="(message) in messageList.allMessageList.at(messageList.currentIndex as number)?.message"
+      :key="message.content"
       :role="message.role"
       :content="message.content"
     />

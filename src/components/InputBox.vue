@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import http from '@/utils/http'
+
 import { useMessageListStore } from '@/store/index'
 
 const messageList = useMessageListStore()
@@ -21,18 +22,29 @@ async function sendMessage() {
 
   loading.value = true
 
-  messageList.message.push({
-    role: 'user',
-    content: input.value
-  })
+  if (messageList.currentIndex === null) {
+    messageList.addNewMessageList({
+      role: 'user',
+      content: input.value
+    })
+  } else {
+    messageList.allMessageList
+      .at(messageList.currentIndex)
+      ?.message.push({ role: 'user', content: input.value })
+  }
 
   clearInputBox()
 
-  const res = await http.post('/chat', { message: messageList.message })
+  const res = await http.post('/chat', {
+    message: messageList.allMessageList.at(messageList.currentIndex as number)
+      ?.message
+  })
 
-  messageList.message.push(res.data.data.choices[0].message)
+  messageList.allMessageList
+    .at(messageList.currentIndex as number)
+    ?.message.push(res.data.data.choices[0].message)
 
-  localStorage.setItem('messageList', JSON.stringify(messageList.message))
+  messageList.syncToStorage()
 
   loading.value = false
 }

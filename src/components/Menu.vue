@@ -4,9 +4,7 @@ import { useMessageListStore } from '@/store/index'
 const messageList = useMessageListStore()
 
 function clearConversations() {
-  messageList.message = []
-
-  localStorage.removeItem('messageList')
+  messageList.clearAllMessageList()
 }
 </script>
 
