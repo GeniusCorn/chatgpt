@@ -12,7 +12,7 @@
       p-4
       text-white
     >
-      <Logo />
+      <ChatList />
 
       <Menu />
     </div>
