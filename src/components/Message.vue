@@ -19,7 +19,7 @@ const textSplit = rawContent.split('\\n')
       'bg-slate-100': props.role !== 'user',
       'dark:bg-slate-600': props.role !== 'user'
     }"
-    p-x-94
+    p-x-30
     font-sans
     dark:text-white
   >

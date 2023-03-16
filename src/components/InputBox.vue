@@ -78,7 +78,7 @@ function clearInputBox() {
     items-center
     justify-center
     gap-4
-    p-x-84
+    p-x-20
     p-y-4
   >
     <textarea
