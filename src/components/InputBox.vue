@@ -39,7 +39,6 @@ async function sendMessage() {
     message: messageList.allMessageList.at(messageList.currentIndex as number)
       ?.message
   })
-  console.log(res)
 
   if (res.data.code === 0) {
     messageList.allMessageList

@@ -25,7 +25,7 @@ export const useMessageListStore = defineStore('messageList', () => {
 
   function clearAllMessageList(): void {
     allMessageList.value = []
-
+    currentIndex.value = null
     localStorage.removeItem('allMessageList')
   }
 
