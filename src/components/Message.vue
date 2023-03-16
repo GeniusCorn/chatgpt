@@ -22,7 +22,7 @@ if (props.role === 'user') {
   <div
     flex="~ row"
     :class="{ 'bg-slate-100': props.role !== 'user' }"
-    p-x-60
+    p-x-94
     font-sans
   >
     <div flex="~ 1" min-w-14 justify-center p-y-6>
