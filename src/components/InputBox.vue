@@ -9,9 +9,16 @@ const input = ref<string>('')
 const loading = ref<boolean>(false)
 
 async function sendMessage() {
-  if (loading.value === true) {
+  if (isLoading()) {
     return
   }
+
+  if (isInputBoxEmpty()) {
+    alert('Please enter content.')
+
+    return
+  }
+
   loading.value = true
 
   messageList.message.push({
@@ -28,6 +35,22 @@ async function sendMessage() {
   localStorage.setItem('messageList', JSON.stringify(messageList.message))
 
   loading.value = false
+}
+
+function isInputBoxEmpty() {
+  if (input.value === '') {
+    return true
+  }
+
+  return false
+}
+
+function isLoading() {
+  if (loading.value === true) {
+    return true
+  }
+
+  return false
 }
 
 function clearInputBox() {
