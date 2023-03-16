@@ -39,12 +39,17 @@ async function sendMessage() {
     message: messageList.allMessageList.at(messageList.currentIndex as number)
       ?.message
   })
+  console.log(res)
 
-  messageList.allMessageList
-    .at(messageList.currentIndex as number)
-    ?.message.push(res.data.data.choices[0].message)
+  if (res.data.code === 0) {
+    messageList.allMessageList
+      .at(messageList.currentIndex as number)
+      ?.message.push(res.data.data.choices[0].message)
 
-  messageList.syncToStorage()
+    messageList.syncToStorage()
+  } else {
+    alert('Network Error.')
+  }
 
   loading.value = false
 }
