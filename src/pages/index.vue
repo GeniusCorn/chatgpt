@@ -1,16 +1,4 @@
-<script setup lang="ts">
-import { useMessageListStore } from '@/store/index'
-
-const messageList = useMessageListStore()
-
-onMounted(() => {
-  if (localStorage.getItem('messageList')) {
-    messageList.message = JSON.parse(
-      localStorage.getItem('messageList') as string
-    )
-  }
-})
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div h-screen w-screen flex="~ row">
@@ -39,14 +27,7 @@ onMounted(() => {
       gap-4
       overflow-hidden
     >
-      <div overflow-y-auto p-y-4>
-        <Message
-          v-for="(message, index) in messageList.message"
-          :key="index"
-          :role="message.role"
-          :content="message.content"
-        />
-      </div>
+      <Main />
 
       <InputBox />
 
