@@ -26,6 +26,7 @@
       justify-end
       gap-4
       overflow-hidden
+      dark:bg-slate-800
     >
       <Main />
 

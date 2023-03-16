@@ -97,6 +97,8 @@ function clearInputBox() {
       text-base
       outline-none
       drop-shadow-xl
+      dark:bg-slate-600
+      dark:text-white
       focus-visible:ring-0
       focus:ring-0
     />

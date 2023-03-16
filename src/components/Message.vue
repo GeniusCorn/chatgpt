@@ -9,21 +9,19 @@ let rawContent = JSON.stringify(props.content)
 rawContent = rawContent.slice(1)
 rawContent = rawContent.slice(0, -1)
 
-let textSplit: string[]
-
-if (props.role === 'user') {
-  textSplit = rawContent.split('\\n')
-} else {
-  textSplit = rawContent.split('\\n\\n')
-}
+const textSplit = rawContent.split('\\n')
 </script>
 
 <template>
   <div
     flex="~ row"
-    :class="{ 'bg-slate-100': props.role !== 'user' }"
+    :class="{
+      'bg-slate-100': props.role !== 'user',
+      'dark:bg-slate-600': props.role !== 'user'
+    }"
     p-x-94
     font-sans
+    dark:text-white
   >
     <div flex="~ 1" min-w-14 justify-center p-y-6>
       <div
