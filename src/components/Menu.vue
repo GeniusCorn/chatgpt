@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import http from '@/utils/http'
+
 import { useMessageListStore } from '@/store/index'
 
 const messageList = useMessageListStore()
@@ -27,17 +29,41 @@ function enableDarkMode() {
   theme.value = 'dark'
 }
 
+const networkStatus = ref<boolean>(false)
+
+async function checkNetwork() {
+  const res = await http.get('/chat')
+
+  if (res.data.code === 0) {
+    networkStatus.value = true
+  }
+}
+
 onMounted(() => {
   if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
     enableDarkMode()
   } else {
     disableDarkMode()
   }
+
+  checkNetwork()
 })
 </script>
 
 <template>
   <div flex="~ col">
+    <div flex="~ row" items-center gap-2 rounded-lg p-2>
+      <div v-if="networkStatus" flex="~ row" items-center gap-2>
+        <div i-tabler-network text-green />
+        <div>Connected</div>
+      </div>
+
+      <div v-else flex="~ row" items-center gap-2>
+        <div i-tabler-network-off text-red />
+        <div>Disconnected</div>
+      </div>
+    </div>
+
     <div
       flex="~ row"
       cursor-pointer

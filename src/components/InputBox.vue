@@ -46,8 +46,6 @@ async function sendMessage() {
       ?.message.push(res.data.data.choices[0].message)
 
     messageList.syncToStorage()
-  } else {
-    alert('Network Error.')
   }
 
   loading.value = false

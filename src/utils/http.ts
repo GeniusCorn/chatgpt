@@ -5,7 +5,7 @@ const http: AxiosInstance = axios.create({
   headers: {
     'Content-type': 'application/json'
   },
-  timeout: 900000000
+  timeout: 120000
 })
 
 http.interceptors.response.use(
@@ -13,6 +13,8 @@ http.interceptors.response.use(
     return response
   },
   async (error: any) => {
+    alert(error.message)
+
     return await Promise.reject(error)
   }
 )
