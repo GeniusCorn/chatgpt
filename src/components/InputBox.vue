@@ -2,12 +2,15 @@
 import http from '@/utils/http'
 
 import { useChatListStore } from '@/store/chat'
+import { Message } from '@/types/Message'
 
 const chatList = useChatListStore()
 
 const input = ref<string>('')
 
 const loading = ref<boolean>(false)
+
+const time = ref<number>(1)
 
 async function sendMessage() {
   if (isLoading()) {
@@ -22,18 +25,24 @@ async function sendMessage() {
 
   loading.value = true
 
-  if (chatList.currentChatListIndex === null) {
-    chatList.createNewChatList({
-      role: 'user',
-      content: input.value
-    })
-  } else {
-    chatList.allChatList
-      .at(chatList.currentChatListIndex)
-      ?.message.push({ role: 'user', content: input.value })
+  const message: Message = {
+    role: 'user',
+    content: input.value
   }
 
   clearInputBox()
+
+  if (chatList.currentChatListIndex === null) {
+    chatList.createNewChatList(message)
+  } else {
+    chatList.allChatList
+      .at(chatList.currentChatListIndex)
+      ?.message.push(message)
+  }
+
+  const interval = setInterval(() => {
+    time.value += 1
+  }, 1000)
 
   const res = await http.post('/chat', {
     message: chatList.allChatList.at(chatList.currentChatListIndex as number)
@@ -46,7 +55,12 @@ async function sendMessage() {
       ?.message.push(res.data.data.choices[0].message)
 
     chatList.saveAllChatListToStorage()
+  } else {
+    alert('Please try again later.')
   }
+
+  clearInterval(interval)
+  time.value = 1
 
   loading.value = false
 }
@@ -83,30 +97,51 @@ function clearInputBox() {
     p-x-20
     p-y-4
   >
-    <textarea
-      v-model="input"
-      rows="1"
-      :disabled="loading"
-      border-black="/10"
-      min-h-24
-      w-full
-      resize-none
-      overflow-y-auto
-      border
-      rounded-lg
-      p-4
-      font-sans
-      text-base
-      outline-none
-      drop-shadow-xl
-      dark:bg-slate-600
-      dark:text-white
-      focus-visible:ring-0
-      focus:ring-0
-    />
+    <div relative h-full w-full>
+      <textarea
+        v-model="input"
+        rows="1"
+        :disabled="loading"
+        border-black="/10"
+        box-border
+        min-h-24
+        w-full
+        resize-none
+        overflow-y-auto
+        border
+        rounded-lg
+        p-4
+        font-sans
+        text-base
+        outline-none
+        drop-shadow-xl
+        dark="bg-slate-700 text-white"
+        focus-visible:ring-0
+        focus:ring-0
+      />
+
+      <div
+        v-if="loading"
+        flex="~"
+        absolute
+        inset-0
+        h-full
+        w-full
+        items-center
+        justify-center
+        dark:text-white
+      >
+        <div v-if="time === 1">
+          AI is thinking, {{ time }} second have passed...
+        </div>
+        <div v-else>AI is thinking, {{ time }} seconds have passed...</div>
+      </div>
+    </div>
 
     <div
       flex="~"
+      relative
+      box-border
       h-full
       w-20
       items-center
