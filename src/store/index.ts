@@ -9,7 +9,7 @@ export const useMessageListStore = defineStore('messageList', () => {
   function addNewMessageList(message: Message): void {
     currentIndex.value = allMessageList.value.length
 
-    const title: string = message.content.substring(0, 10)
+    const title: string = message.content.substring(0, 20)
 
     allMessageList.value.push({
       title,

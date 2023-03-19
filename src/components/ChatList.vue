@@ -48,7 +48,7 @@ function changeChat(index: number) {
         v-for="(message, index) in messageList.allMessageList"
         :key="index"
         flex="~ row"
-        border="~ solid gray-900"
+        border="~ solid"
         cursor-pointer
         items-center
         gap-2
@@ -58,6 +58,10 @@ function changeChat(index: number) {
         duration-200
         ease-in-out
         hover:bg-slate-600
+        :class="{
+          'border-emerald-400': messageList.currentIndex === index,
+          'border-gray-900': messageList.currentIndex !== index
+        }"
         @click="changeChat(index)"
       >
         <div i-tabler-message flex-none />
