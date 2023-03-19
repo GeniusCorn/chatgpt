@@ -1,13 +1,20 @@
 <script setup lang="ts">
-import { useMessageListStore } from '@/store/index'
+import { useChatListStore } from '@/store/chat'
 import { useScroll } from '@/composables/useScroll'
 
 const { scrollRef, scrollToBottom } = useScroll()
 
-const messageList = useMessageListStore()
+const chatList = useChatListStore()
 
 const isCurrentMessageListEmpty = computed(
-  () => messageList.currentIndex === null
+  () => chatList.currentChatListIndex === null
+)
+
+watch(
+  () => chatList.currentChatListIndex,
+  () => {
+    console.log(chatList.currentChatListIndex)
+  }
 )
 
 onUpdated(() => {
@@ -29,7 +36,7 @@ onUpdated(() => {
 
   <div v-else ref="scrollRef" overflow-y-auto p-y-4>
     <Message
-      v-for="(message) in messageList.allMessageList.at(messageList.currentIndex as number)?.message"
+      v-for="(message) in chatList.allChatList.at(chatList.currentChatListIndex as number)?.message"
       :key="message.content"
       :role="message.role"
       :content="message.content"

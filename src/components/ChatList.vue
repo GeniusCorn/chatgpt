@@ -1,22 +1,48 @@
 <script setup lang="ts">
-import { useMessageListStore } from '@/store/index'
+import { useChatListStore } from '@/store/chat'
 
-const messageList = useMessageListStore()
+const chatList = useChatListStore()
 
 onMounted(() => {
-  if (localStorage.getItem('allMessageList')) {
-    messageList.allMessageList = JSON.parse(
-      localStorage.getItem('allMessageList') as string
-    )
-  }
+  chatList.getAllChatListFromStorage()
 })
 
-function addNewChat() {
-  messageList.currentIndex = null
+const isEditing = ref<boolean>(false)
+const editTitleText = ref<string>('')
+
+function createNewChat() {
+  if (isEditing.value === true) {
+    return
+  }
+
+  chatList.currentChatListIndex = null
 }
 
 function changeChat(index: number) {
-  messageList.currentIndex = index
+  if (isEditing.value === true) {
+    return
+  }
+
+  chatList.currentChatListIndex = index
+}
+
+function startEditing() {
+  editTitleText.value = chatList.allChatList.at(
+    chatList.currentChatListIndex as number
+  )?.title as string
+
+  isEditing.value = true
+}
+
+function finishEditing() {
+  isEditing.value = false
+
+  chatList.allChatList[chatList.currentChatListIndex as number].title =
+    editTitleText.value
+
+  chatList.saveAllChatListToStorage()
+
+  editTitleText.value = ''
 }
 </script>
 
@@ -36,21 +62,22 @@ function changeChat(index: number) {
       duration-200
       ease-in-out
       hover:bg-slate-600
-      @click="addNewChat"
+      @click="createNewChat"
     >
       <div i-tabler-plus flex-none />
 
       <div truncate>New Chat</div>
     </div>
 
-    <div flex="~ col" h-full w-full>
+    <div flex="~ col" h-full w-full gap-2>
       <div
-        v-for="(message, index) in messageList.allMessageList"
+        v-for="(message, index) in chatList.allChatList"
         :key="index"
         flex="~ row"
         border="~ solid"
         cursor-pointer
         items-center
+        justify-between
         gap-2
         rounded-lg
         p-2
@@ -59,14 +86,52 @@ function changeChat(index: number) {
         ease-in-out
         hover:bg-slate-600
         :class="{
-          'border-emerald-400': messageList.currentIndex === index,
-          'border-gray-900': messageList.currentIndex !== index
+          'border-emerald-400': chatList.currentChatListIndex === index,
+          'border-gray-900': chatList.currentChatListIndex !== index
         }"
         @click="changeChat(index)"
       >
-        <div i-tabler-message flex-none />
+        <div v-if="isEditing && chatList.currentChatListIndex === index">
+          <input
+            v-model="editTitleText"
+            h-full
+            w-full
+            type="text"
+            @keyup.enter="finishEditing"
+          />
+        </div>
+        <template v-else>
+          <div i-tabler-message flex-none />
 
-        <div truncate>{{ message.title }}</div>
+          <div w-full truncate text-sm>{{ message.title }}</div>
+        </template>
+
+        <div
+          v-if="chatList.currentChatListIndex === index"
+          flex="~ row"
+          items-center
+          gap-2
+        >
+          <template v-if="!isEditing">
+            <div
+              i-tabler-edit-circle
+              transition
+              duration-200
+              ease-in-out
+              hover:text-emerald-400
+              @click="startEditing"
+            />
+
+            <div
+              i-tabler-trash
+              transition
+              duration-200
+              ease-in-out
+              hover:text-emerald-400
+              @click.stop="chatList.removeChatList(index)"
+            />
+          </template>
+        </div>
       </div>
     </div>
   </div>

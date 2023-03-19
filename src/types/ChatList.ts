@@ -1,6 +1,6 @@
 import { type Message } from './Message'
 
-export interface MessageList {
+export interface ChatList {
   title: string
   message: Message[]
 }

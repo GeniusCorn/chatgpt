@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import http from '@/utils/http'
 
-import { useMessageListStore } from '@/store/index'
+import { useChatListStore } from '@/store/chat'
 
-const messageList = useMessageListStore()
+const chatList = useChatListStore()
 
 const input = ref<string>('')
 
@@ -22,30 +22,30 @@ async function sendMessage() {
 
   loading.value = true
 
-  if (messageList.currentIndex === null) {
-    messageList.addNewMessageList({
+  if (chatList.currentChatListIndex === null) {
+    chatList.createNewChatList({
       role: 'user',
       content: input.value
     })
   } else {
-    messageList.allMessageList
-      .at(messageList.currentIndex)
+    chatList.allChatList
+      .at(chatList.currentChatListIndex)
       ?.message.push({ role: 'user', content: input.value })
   }
 
   clearInputBox()
 
   const res = await http.post('/chat', {
-    message: messageList.allMessageList.at(messageList.currentIndex as number)
+    message: chatList.allChatList.at(chatList.currentChatListIndex as number)
       ?.message
   })
 
   if (res.data.code === 0) {
-    messageList.allMessageList
-      .at(messageList.currentIndex as number)
+    chatList.allChatList
+      .at(chatList.currentChatListIndex as number)
       ?.message.push(res.data.data.choices[0].message)
 
-    messageList.syncToStorage()
+    chatList.saveAllChatListToStorage()
   }
 
   loading.value = false

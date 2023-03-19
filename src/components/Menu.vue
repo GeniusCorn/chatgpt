@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import http from '@/utils/http'
 
-import { useMessageListStore } from '@/store/index'
+import { useChatListStore } from '@/store/chat'
 
-const messageList = useMessageListStore()
+const chatList = useChatListStore()
 
 function clearConversations() {
-  messageList.clearAllMessageList()
+  chatList.clearAllChatList()
 }
 
 const theme = ref<string>()
