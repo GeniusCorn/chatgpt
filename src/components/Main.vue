@@ -10,13 +10,6 @@ const isCurrentMessageListEmpty = computed(
   () => chatList.currentChatListIndex === null
 )
 
-watch(
-  () => chatList.currentChatListIndex,
-  () => {
-    console.log(chatList.currentChatListIndex)
-  }
-)
-
 onUpdated(() => {
   scrollToBottom()
 })

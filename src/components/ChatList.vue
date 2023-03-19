@@ -50,7 +50,7 @@ function finishEditing() {
   <div flex="~ col" gap-2>
     <div
       flex="~ row"
-      box-border
+      min-h-8
       cursor-pointer
       items-center
       gap-2
@@ -75,6 +75,7 @@ function finishEditing() {
         :key="index"
         flex="~ row"
         border="~ solid"
+        min-h-8
         cursor-pointer
         items-center
         justify-between
@@ -94,7 +95,6 @@ function finishEditing() {
         <div v-if="isEditing && chatList.currentChatListIndex === index">
           <input
             v-model="editTitleText"
-            h-full
             w-full
             type="text"
             @keyup.enter="finishEditing"
@@ -103,7 +103,7 @@ function finishEditing() {
         <template v-else>
           <div i-tabler-message flex-none />
 
-          <div w-full truncate text-sm>{{ message.title }}</div>
+          <div w-full truncate>{{ message.title }}</div>
         </template>
 
         <div

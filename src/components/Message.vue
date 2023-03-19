@@ -29,9 +29,19 @@ const textSplit = rawContent.split('\\n')
         i-tabler-brand-openai
         text-3xl
         text-emerald
+        duration-200
+        ease-in-out
+        hover:text-white
       />
 
-      <div v-else i-tabler-user text-3xl />
+      <div
+        v-else
+        i-tabler-user
+        text-3xl
+        duration-200
+        ease-in-out
+        hover:text-emerald
+      />
     </div>
 
     <div w-full text-justify leading-loose>
