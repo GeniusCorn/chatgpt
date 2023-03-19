@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import { useMessageListStore } from '@/store/index'
+import { useScroll } from '@/composables/useScroll'
+
+const { scrollRef, scrollToBottom } = useScroll()
 
 const messageList = useMessageListStore()
 
 const isCurrentMessageListEmpty = computed(
   () => messageList.currentIndex === null
 )
+
+onUpdated(() => {
+  scrollToBottom()
+})
 </script>
 
 <template>
@@ -20,7 +27,7 @@ const isCurrentMessageListEmpty = computed(
     <Intro />
   </div>
 
-  <div v-else overflow-y-auto p-y-4>
+  <div v-else ref="scrollRef" overflow-y-auto p-y-4>
     <Message
       v-for="(message) in messageList.allMessageList.at(messageList.currentIndex as number)?.message"
       :key="message.content"
