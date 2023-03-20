@@ -23,11 +23,6 @@ async function sendMessage() {
     return
   }
 
-  if (chatList.allChatList.length > 4) {
-    alert('Only supports the creation of up to five chat lists.')
-    return
-  }
-
   loading.value = true
 
   const message: Message = {

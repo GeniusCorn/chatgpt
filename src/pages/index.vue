@@ -6,7 +6,8 @@
     <div
       flex="~ col"
       box-border
-      w-60
+      max-w-60
+      min-w-60
       justify-between
       bg-gray-900
       p-4
