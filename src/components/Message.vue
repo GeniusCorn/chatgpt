@@ -6,6 +6,7 @@ const props = defineProps<{
 
 let rawContent = JSON.stringify(props.content)
 
+// remove useless string
 rawContent = rawContent.slice(1)
 rawContent = rawContent.slice(0, -1)
 
