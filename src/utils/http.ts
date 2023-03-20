@@ -13,6 +13,10 @@ http.interceptors.response.use(
     return response
   },
   async (error: any) => {
+    if (error.message === 'canceled') {
+      return await Promise.reject(error)
+    }
+
     alert(error.message)
 
     return await Promise.reject(error)

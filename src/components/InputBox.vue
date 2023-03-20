@@ -11,6 +11,9 @@ const input = ref<string>('')
 const loading = ref<boolean>(false)
 
 const time = ref<number>(1)
+const timer = ref<any>(null)
+
+let controller = new AbortController()
 
 async function sendMessage() {
   if (isLoading()) {
@@ -40,14 +43,20 @@ async function sendMessage() {
       ?.message.push(message)
   }
 
-  const interval = setInterval(() => {
+  timer.value = setInterval(() => {
     time.value += 1
   }, 1000)
 
-  const res = await http.post('/chat', {
-    message: chatList.allChatList.at(chatList.currentChatListIndex as number)
-      ?.message
-  })
+  controller = new AbortController()
+
+  const res = await http.post(
+    '/chat',
+    {
+      message: chatList.allChatList.at(chatList.currentChatListIndex as number)
+        ?.message
+    },
+    { signal: controller.signal }
+  )
 
   if (res.data.code === 0) {
     chatList.allChatList
@@ -59,9 +68,7 @@ async function sendMessage() {
     alert('Please try again later.')
   }
 
-  clearInterval(interval)
-  time.value = 1
-
+  clearTimer()
   loading.value = false
 }
 
@@ -84,6 +91,26 @@ function isLoading() {
 function clearInputBox() {
   input.value = ''
 }
+
+function clearTimer() {
+  clearInterval(timer.value)
+  time.value = 1
+}
+
+function handleStop() {
+  if (loading.value) {
+    controller.abort()
+    loading.value = false
+    chatList.allChatList
+      .at(chatList.currentChatListIndex as number)
+      ?.message.pop()
+    clearTimer()
+  }
+}
+
+onUnmounted(() => {
+  handleStop()
+})
 </script>
 
 <template>
@@ -125,7 +152,7 @@ function clearInputBox() {
 
       <div
         v-if="loading"
-        flex="~"
+        flex="~ col"
         absolute
         inset-0
         h-full
@@ -135,6 +162,18 @@ function clearInputBox() {
         dark:text-white
       >
         <div>AI is thinking... [{{ time }}s]</div>
+        <div
+          cursor-pointer
+          text-sm
+          text-gray-4
+          transition
+          duration-200
+          ease-in-out
+          hover:underline
+          @click="handleStop"
+        >
+          Stop
+        </div>
       </div>
     </div>
 
