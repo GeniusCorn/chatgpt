@@ -51,16 +51,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div flex="~ col">
+  <div lg:flex="~ col" flex="~ row">
     <div flex="~ row" items-center gap-2 rounded-lg p-2>
       <div v-if="networkStatus" flex="~ row" items-center gap-2>
         <div i-tabler-network text-green />
-        <div>Connected</div>
+        <div hidden lg:block>Connected</div>
       </div>
 
       <div v-else flex="~ row" items-center gap-2>
         <div i-tabler-network-off text-red />
-        <div>Disconnected</div>
+        <div hidden lg:block>Disconnected</div>
       </div>
     </div>
 
@@ -78,7 +78,7 @@ onMounted(() => {
       @click="clearConversations"
     >
       <div i-tabler-trash />
-      <div>Clear Conversations</div>
+      <div hidden lg:block>Clear Conversations</div>
     </div>
 
     <div
@@ -96,12 +96,12 @@ onMounted(() => {
     >
       <div v-if="theme === 'dark'" flex="~ row" items-center gap-2>
         <div i-tabler-sun />
-        <div>Light Mode</div>
+        <div hidden lg:block>Light Mode</div>
       </div>
 
       <div v-else flex="~ row" items-center gap-2>
         <div i-tabler-moon />
-        <div>Dark Mode</div>
+        <div hidden lg:block>Dark Mode</div>
       </div>
     </div>
   </div>

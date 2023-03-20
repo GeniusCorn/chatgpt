@@ -47,7 +47,7 @@ function finishEditing() {
 </script>
 
 <template>
-  <div flex="~ col" gap-2>
+  <div lg:flex="~ col" flex="~ row" gap-2>
     <div
       flex="~ row"
       min-h-8
@@ -66,10 +66,10 @@ function finishEditing() {
     >
       <div i-tabler-plus flex-none />
 
-      <div truncate>New Chat</div>
+      <div hidden truncate lg:block>New Chat</div>
     </div>
 
-    <div flex="~ col" h-full w-full gap-2>
+    <div lg:flex="~ col" h-full w-full gap-2 flex="~ row">
       <div
         v-for="(message, index) in chatList.allChatList"
         :key="index"
@@ -103,7 +103,7 @@ function finishEditing() {
         <template v-else>
           <div i-tabler-message flex-none />
 
-          <div w-full truncate>{{ message.title }}</div>
+          <div hidden w-full truncate lg:block>{{ message.title }}</div>
         </template>
 
         <div
@@ -115,9 +115,11 @@ function finishEditing() {
           <template v-if="!isEditing">
             <div
               i-tabler-edit-circle
+              hidden
               transition
               duration-200
               ease-in-out
+              lg:block
               hover:text-emerald-400
               @click="startEditing"
             />

@@ -1,17 +1,17 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div h-screen w-screen flex="~ row">
+  <div h-screen w-screen flex="~ col" lg="flex flex-row">
     <!-- left -->
     <div
-      flex="~ col"
+      flex="~ row"
+      lg:flex="~ col"
       box-border
-      max-w-60
-      min-w-60
       justify-between
       bg-gray-900
       p-4
       text-white
+      lg:min-w-60
     >
       <ChatList />
 

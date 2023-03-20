@@ -24,7 +24,7 @@ onUpdated(() => {
     items-center
     justify-center
   >
-    <Intro />
+    <Intro invisible lg:visible />
   </div>
 
   <div v-else ref="scrollRef" overflow-y-auto p-y-2>
