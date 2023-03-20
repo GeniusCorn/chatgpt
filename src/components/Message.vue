@@ -14,38 +14,46 @@ const textSplit = rawContent.split('\\n')
 
 <template>
   <div
-    flex="~ row"
     :class="{
       'bg-slate-100': props.role !== 'user',
       'dark:bg-slate-600': props.role !== 'user'
     }"
-    p-x-30
-    font-sans
-    dark:text-white
   >
-    <div flex="~ 1" min-w-14 justify-center p-y-6>
-      <div
-        v-if="props.role !== 'user'"
-        i-tabler-brand-openai
-        text-3xl
-        text-emerald
-        duration-200
-        ease-in-out
-        hover:text-white
-      />
+    <div
+      flex="~ row"
+      m-auto
+      p-x-2
+      font-sans
+      lg:max-w-2xl
+      md:max-w-2xl
+      xl:max-w-3xl
+      dark:text-white
+    >
+      <div flex="~ 1" min-w-14 justify-center p-y-6>
+        <div
+          v-if="props.role !== 'user'"
+          i-tabler-brand-openai
+          text-3xl
+          text-emerald
+          duration-200
+          ease-in-out
+          hover:text-black
+          dark="hover:text-white"
+        />
 
-      <div
-        v-else
-        i-tabler-user
-        text-3xl
-        duration-200
-        ease-in-out
-        hover:text-emerald
-      />
-    </div>
+        <div
+          v-else
+          i-tabler-user
+          text-3xl
+          duration-200
+          ease-in-out
+          hover:text-emerald
+        />
+      </div>
 
-    <div w-full text-justify leading-loose>
-      <p v-for="(text, index) in textSplit" :key="index">{{ text }}</p>
+      <div w-full text-justify leading-loose>
+        <p v-for="(text, index) in textSplit" :key="index">{{ text }}</p>
+      </div>
     </div>
   </div>
 </template>

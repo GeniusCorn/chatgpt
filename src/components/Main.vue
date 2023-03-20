@@ -27,7 +27,7 @@ onUpdated(() => {
     <Intro />
   </div>
 
-  <div v-else ref="scrollRef" overflow-y-auto p-y-4>
+  <div v-else ref="scrollRef" overflow-y-auto p-y-2>
     <Message
       v-for="(message) in chatList.allChatList.at(chatList.currentChatListIndex as number)?.message"
       :key="message.content"

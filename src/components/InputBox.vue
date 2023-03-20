@@ -89,13 +89,16 @@ function clearInputBox() {
 <template>
   <div
     flex="~ row"
+    m-x-auto
     box-border
+    max-w-sm
     w-full
-    items-center
-    justify-center
     gap-4
-    p-x-20
+    p-x-2
     p-y-4
+    lg:max-w-2xl
+    md:max-w-2xl
+    xl:max-w-3xl
   >
     <div relative h-full w-full>
       <textarea
@@ -104,7 +107,7 @@ function clearInputBox() {
         :disabled="loading"
         border-black="/10"
         box-border
-        min-h-24
+        min-h-full
         w-full
         resize-none
         overflow-y-auto
@@ -131,18 +134,14 @@ function clearInputBox() {
         justify-center
         dark:text-white
       >
-        <div v-if="time === 1">
-          AI is thinking, {{ time }} second have passed...
-        </div>
-        <div v-else>AI is thinking, {{ time }} seconds have passed...</div>
+        <div>AI is thinking... [{{ time }}s]</div>
       </div>
     </div>
 
     <div
       flex="~"
       relative
-      box-border
-      h-full
+      min-h-24
       w-20
       items-center
       justify-center
