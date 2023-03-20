@@ -23,11 +23,11 @@ const textSplit = rawContent.split('\\n')
     <div
       flex="~ row"
       m-auto
-      p-x-2
+      max-w-xl
+      p-x-4
       font-sans
-      lg:max-w-2xl
-      md:max-w-2xl
-      xl:max-w-3xl
+      lg:max-w-3xl
+      lg:p-x-2
       dark:text-white
     >
       <div flex="~ 1" min-w-14 justify-center p-y-6>

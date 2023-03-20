@@ -11,7 +11,7 @@
       bg-gray-900
       p-4
       text-white
-      lg:min-w-60
+      lg:w-60
     >
       <ChatList />
 
