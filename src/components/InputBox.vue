@@ -64,8 +64,18 @@ async function sendMessage() {
       ?.message.push(res.data.data.choices[0].message)
 
     chatList.saveAllChatListToStorage()
+  } else if (res.data.code === 1) {
+    chatList.allChatList
+      .at(chatList.currentChatListIndex as number)
+      ?.message.pop()
+
+    alert(res.data.message)
   } else {
-    alert('Please try again later.')
+    chatList.allChatList
+      .at(chatList.currentChatListIndex as number)
+      ?.message.pop()
+
+    alert('Network Error, please try again later.')
   }
 
   clearTimer()
