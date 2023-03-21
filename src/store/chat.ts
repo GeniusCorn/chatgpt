@@ -52,6 +52,10 @@ export const useChatListStore = defineStore('chatList', () => {
     localStorage.removeItem('allChatList')
   }
 
+  function removeLastMessageFromAChatList(index: number): void {
+    allChatList.value.at(index)?.message.pop()
+  }
+
   return {
     currentChatListIndex,
     allChatList,
@@ -60,6 +64,7 @@ export const useChatListStore = defineStore('chatList', () => {
     getAllChatListFromStorage,
     saveAllChatListToStorage,
     createNewChatList,
-    clearAllChatList
+    clearAllChatList,
+    removeLastMessageFromAChatList
   }
 })

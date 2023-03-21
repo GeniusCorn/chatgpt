@@ -65,15 +65,15 @@ async function sendMessage() {
 
     chatList.saveAllChatListToStorage()
   } else if (res.data.code === 1) {
-    chatList.allChatList
-      .at(chatList.currentChatListIndex as number)
-      ?.message.pop()
+    chatList.removeLastMessageFromAChatList(
+      chatList.currentChatListIndex as number
+    )
 
     alert(res.data.message)
   } else {
-    chatList.allChatList
-      .at(chatList.currentChatListIndex as number)
-      ?.message.pop()
+    chatList.removeLastMessageFromAChatList(
+      chatList.currentChatListIndex as number
+    )
 
     alert('Network Error, please try again later.')
   }
@@ -111,9 +111,11 @@ function handleStop() {
   if (loading.value) {
     controller.abort()
     loading.value = false
-    chatList.allChatList
-      .at(chatList.currentChatListIndex as number)
-      ?.message.pop()
+
+    chatList.removeLastMessageFromAChatList(
+      chatList.currentChatListIndex as number
+    )
+
     clearTimer()
   }
 }
@@ -180,6 +182,7 @@ onUnmounted(() => {
           duration-200
           ease-in-out
           hover:underline
+          hover:opacity-50
           @click="handleStop"
         >
           Stop
