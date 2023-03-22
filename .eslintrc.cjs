@@ -37,6 +37,7 @@ module.exports = {
   ignorePatterns: ['*.d.ts', '*.config.ts'],
   plugins: ['vue'],
   rules: {
-    'vue/multi-word-component-names': 'off'
+    'vue/multi-word-component-names': 'off',
+    'vue/no-v-html': 'off'
   }
 }

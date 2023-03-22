@@ -1,42 +1,27 @@
 <script setup lang="ts">
+import MarkdownIt from 'markdown-it'
+import hljs from 'highlight.js'
+
 const props = defineProps<{
   role: string
   content: string
 }>()
 
-const rawContent = JSON.stringify(props.content)
+const md: MarkdownIt = new MarkdownIt({
+  linkify: true,
 
-const textSplit: string = generateText(rawContent)
-
-function generateText(raw: string) {
-  let result: any
-
-  // remove useless string
-  const temp = raw.slice(1)
-  result = temp.slice(0, -1)
-
-  // split by line break
-  result = result.split('\\n')
-
-  // remove empty
-  for (let i = 0; i < result.length; i += 1) {
-    if (result[i].length === 0) {
-      if (i === 0) {
-        result.shift()
-        result.shift()
-      } else {
-        result.splice(i, 1)
-      }
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(str, { language: lang }).value
+      } catch (__) {}
     }
-  }
 
-  // replace escaped characters
-  for (let i = 0; i < result.length; i += 1) {
-    result[i] = result[i].replaceAll('\\"', '"')
+    return '' // use external default escaping
   }
+})
 
-  return result
-}
+const text = computed(() => md.render(props.content))
 </script>
 
 <template>
@@ -79,10 +64,14 @@ function generateText(raw: string) {
       </div>
 
       <div w-full text-justify leading-loose>
-        <p v-for="(text, index) in textSplit" :key="index">{{ text }}</p>
+        <div v-html="text" />
       </div>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.hljs {
+  background-color: beige;
+}
+</style>
