@@ -4,13 +4,39 @@ const props = defineProps<{
   content: string
 }>()
 
-let rawContent = JSON.stringify(props.content)
+const rawContent = JSON.stringify(props.content)
 
-// remove useless string
-rawContent = rawContent.slice(1)
-rawContent = rawContent.slice(0, -1)
+const textSplit: string = generateText(rawContent)
 
-const textSplit = rawContent.split('\\n')
+function generateText(raw: string) {
+  let result: any
+
+  // remove useless string
+  const temp = raw.slice(1)
+  result = temp.slice(0, -1)
+
+  // split by line break
+  result = result.split('\\n')
+
+  // remove empty
+  for (let i = 0; i < result.length; i += 1) {
+    if (result[i].length === 0) {
+      if (i === 0) {
+        result.shift()
+        result.shift()
+      } else {
+        result.splice(i, 1)
+      }
+    }
+  }
+
+  // replace escaped characters
+  for (let i = 0; i < result.length; i += 1) {
+    result[i] = result[i].replaceAll('\\"', '"')
+  }
+
+  return result
+}
 </script>
 
 <template>
