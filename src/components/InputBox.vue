@@ -146,7 +146,7 @@ onUnmounted(() => {
         :disabled="loading"
         border-black="/10"
         box-border
-        min-h-full
+        h-full
         w-full
         resize-none
         overflow-y-auto
@@ -193,7 +193,7 @@ onUnmounted(() => {
     <div
       flex="~"
       relative
-      min-h-24
+      box-border
       w-20
       items-center
       justify-center
