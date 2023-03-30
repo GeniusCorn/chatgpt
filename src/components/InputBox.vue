@@ -7,6 +7,7 @@ import { Message } from '@/types/Message'
 const chatList = useChatListStore()
 
 const input = ref<string>('')
+const inputBox = ref<HTMLElement | null>(null)
 
 const loading = ref<boolean>(false)
 
@@ -18,6 +19,10 @@ let controller = new AbortController()
 async function sendMessage() {
   if (isLoading()) {
     return
+  }
+
+  if (inputBox.value) {
+    input.value = inputBox.value.innerText
   }
 
   if (isInputBoxEmpty()) {
@@ -100,6 +105,10 @@ function isLoading() {
 
 function clearInputBox() {
   input.value = ''
+
+  if (inputBox.value) {
+    inputBox.value.innerText = ''
+  }
 }
 
 function clearTimer() {
@@ -126,95 +135,87 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div
-    flex="~ row"
-    m-x-auto
-    box-border
-    max-w-sm
-    w-full
-    gap-4
-    p-x-2
-    p-y-4
-    lg:max-w-2xl
-    md:max-w-2xl
-    xl:max-w-3xl
-  >
-    <div relative h-full w-full>
-      <textarea
-        v-model="input"
-        rows="1"
-        :disabled="loading"
-        border-black="/10"
-        box-border
-        h-full
-        w-full
-        resize-none
-        overflow-y-auto
-        border
-        rounded-lg
-        p-4
-        font-sans
-        text-base
-        outline-none
-        drop-shadow-xl
-        dark="bg-slate-700 text-white"
-        focus-visible:ring-0
-        focus:ring-0
-      />
-
-      <div
-        v-if="loading"
-        flex="~ col"
-        absolute
-        inset-0
-        h-full
-        w-full
-        items-center
-        justify-center
-        dark:text-white
-      >
-        <div>AI is thinking... [{{ time }}s]</div>
+  <div flex="~" w-full justify-center>
+    <div flex="~ row" box-border w-4xl justify-center gap-4 p-x-4 p-y-4>
+      <div relative box-border h-full w-full>
         <div
-          cursor-pointer
-          text-sm
-          text-gray-4
-          transition
-          duration-200
-          ease-in-out
-          hover:underline
-          hover:opacity-50
-          @click="handleStop"
+          ref="inputBox"
+          :disabled="loading"
+          contenteditable
+          box-border
+          max-h-xs
+          overflow-y-auto
+          rounded-lg
+          bg-slate-50
+          p-4
+          font-sans
+          text-base
+          outline-none
+          drop-shadow-xl
+          dark="bg-slate-700 text-white"
+        />
+
+        <div
+          v-if="loading"
+          flex="~ col"
+          absolute
+          inset-0
+          h-full
+          w-full
+          items-center
+          justify-center
+          dark:text-white
         >
-          Stop
+          <div>AI is thinking... [{{ time }}s]</div>
+          <div
+            cursor-pointer
+            text-sm
+            text-gray-4
+            transition
+            duration-200
+            ease-in-out
+            hover:underline
+            hover:opacity-50
+            @click="handleStop"
+          >
+            Stop
+          </div>
         </div>
       </div>
-    </div>
 
-    <div
-      flex="~"
-      relative
-      box-border
-      w-20
-      items-center
-      justify-center
-      border
-      rounded-lg
-      bg-emerald-400
-      drop-shadow-xl
-      transition
-      duration-200
-      ease-in-out
-      :class="{
-        'hover:bg-emerald-500': !loading,
-        'hover:opacity-100': !loading,
-        'hover:drop-shadow-2xl': !loading,
-        'cursor-pointer': !loading
-      }"
-      @click="sendMessage"
-    >
-      <div v-if="loading" i-tabler-reload text-2xl text-white class="loading" />
+      <div
+        flex="~"
+        relative
+        box-border
+        min-w-20
+        flex-none
+        items-center
+        justify-center
+        border
+        rounded-lg
+        bg-emerald-400
+        drop-shadow-xl
+        transition
+        duration-200
+        ease-in-out
+        :class="{
+          'hover:bg-emerald-500': !loading,
+          'hover:opacity-100': !loading,
+          'hover:drop-shadow-2xl': !loading,
+          'cursor-pointer': !loading
+        }"
+        @click="sendMessage"
+      >
+        <div
+          v-if="loading"
+          i-tabler-reload
+          text-2xl
+          text-white
+          class="loading"
+        />
 
-      <div v-else i-tabler-send text-2xl text-white />
+        <div v-else i-tabler-send text-2xl text-white />
+      </div>
     </div>
   </div>
 </template>
