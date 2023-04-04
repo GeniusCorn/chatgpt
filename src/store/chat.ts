@@ -7,11 +7,6 @@ export const useChatListStore = defineStore('chatList', () => {
   const allChatList = ref<ChatList[]>([])
 
   function createNewChatList(message: Message): void {
-    if (allChatList.value.length > 4) {
-      alert('Only supports the creation of up to five chat lists.')
-      return
-    }
-
     currentChatListIndex.value = allChatList.value.length
 
     const title: string = message.content.substring(0, 20)

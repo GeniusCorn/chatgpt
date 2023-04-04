@@ -17,6 +17,11 @@ const timer = ref<any>(null)
 let controller = new AbortController()
 
 async function sendMessage() {
+  if (chatList.allChatList.length > 4) {
+    alert('Only supports the creation of up to five chat lists.')
+    return
+  }
+
   if (isLoading()) {
     return
   }
