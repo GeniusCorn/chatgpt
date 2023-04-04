@@ -88,7 +88,9 @@ async function sendMessage() {
 }
 
 function isInputBoxEmpty() {
-  if (input.value === '') {
+  const str = input.value.trim()
+
+  if (!str) {
     return true
   }
 
