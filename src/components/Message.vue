@@ -35,7 +35,7 @@ const text = computed(() => md.render(props.content))
       flex="~ row"
       m-auto
       max-w-xl
-      p-x-4
+      p-x-6
       font-sans
       lg:max-w-3xl
       lg:p-x-2

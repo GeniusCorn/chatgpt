@@ -135,15 +135,26 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div flex="~" w-full justify-center>
-    <div flex="~ row" box-border w-4xl justify-center gap-4 p-x-4 p-y-4>
-      <div relative box-border h-full w-full>
+  <div flex="~" min-w-full justify-center>
+    <div
+      flex="~ row"
+      box-border
+      w-xs
+      justify-center
+      gap-4
+      p-x-8
+      p-y-4
+      lg:w-3xl
+      lg:p-x-4
+    >
+      <div relative box-border h-full min-w-full>
         <div
           ref="inputBox"
           :disabled="loading"
           contenteditable
           box-border
           max-h-xs
+          min-w-full
           overflow-y-auto
           rounded-lg
           bg-slate-50
